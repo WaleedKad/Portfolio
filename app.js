@@ -1,25 +1,25 @@
-require("dotenv").config(); // Load environment variables from .env file
-const express = require("express");
-const app = express(); // Use a lowercase 'a' for the instance
+const express = require('express');
+const path = require('path');
+const app = express();
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set view engine
-app.set("view engine", "ejs");
-
-// Serve static files from the "public" directory
-app.use(express.static("public"));
+app.set('view engine', 'ejs');
 
 // Define routes
-app.get("/", (req, res) => {
-  res.redirect("/HomePage");
+app.get('/', (req, res) => {
+  res.redirect('/HomePage');
 });
 
-app.get("/HomePage", (req, res) => {
-  res.render("index"); // Ensure "index.ejs" exists in your views directory
+app.get('/HomePage', (req, res) => {
+  res.render('index'); // Ensure 'index.ejs' exists in your views directory
 });
 
 // Handle 404 errors
 app.use((req, res) => {
-  res.status(404).render("Error"); // Ensure "Error.ejs" exists in your views directory
+  res.status(404).render('Error'); // Ensure 'Error.ejs' exists in your views directory
 });
 
 // Get port from environment variables or default to 3000
