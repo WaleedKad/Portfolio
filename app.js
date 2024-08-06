@@ -1,9 +1,9 @@
+require('dotenv').config();
 const express = require('express');
-const path = require('path');
 const app = express();
 
 // Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static("Public"))
 
 // Set view engine
 app.set('view engine', 'ejs');
@@ -20,9 +20,7 @@ app.get('/HomePage', (req, res) => {
 
 
 // Get port from environment variables or default to 3000
-const PORT = process.env.PORT || 3000;
+
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen((process.env.pp),()=>{console.log(`Porting To ${process.env.pp}`);});
