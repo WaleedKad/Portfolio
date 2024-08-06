@@ -17,10 +17,7 @@ app.get('/HomePage', (req, res) => {
   res.render('index'); // Ensure 'index.ejs' exists in your views directory
 });
 
-// Handle 404 errors
-app.use((req, res) => {
-  res.status(404).render('Error'); // Ensure 'Error.ejs' exists in your views directory
-});
+
 
 // Get port from environment variables or default to 3000
 const PORT = process.env.PORT || 3000;
