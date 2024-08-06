@@ -1,5 +1,6 @@
 require("dotenv").config(); // Load environment variables from .env file
 const express = require("express");
+const { console } = require("console");
 const app = express(); // Use a lowercase 'a' for the instance
 
 // Set view engine
