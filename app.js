@@ -17,6 +17,10 @@ app.get('/HomePage', (req, res) => {
   res.render('index'); // Ensure 'index.ejs' exists in your views directory
 });
 
+// Catch-all route for undefined routes
+app.get('*', (req, res) => {
+  res.redirect('/HomePage');
+});
 
 
 // Get port from environment variables or default to 3000
