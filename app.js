@@ -20,6 +20,9 @@ app.get('/HomePage', (req, res) => {
   res.render('index'); // Ensure 'index.ejs' exists in your views directory
 });
 
+
+//email starts
+
 // Handle form submission
 app.post('/contactform', (req, res) => {
   const { name, email, subject, message } = req.body;
@@ -41,6 +44,7 @@ app.post('/contactform', (req, res) => {
     text: `Message from: ${name}\n\n${message}`,
   };
 
+
   // Send email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
@@ -53,12 +57,16 @@ app.post('/contactform', (req, res) => {
   });
 });
 
+//email ends
+
+
+
 // Catch-all route for undefined routes
 app.get('*', (req, res) => {
   res.redirect('/HomePage');
 });
 
-// Get port from environment variables or default to 3000
+
 
 
 // Start the server
