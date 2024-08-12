@@ -2,9 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // Import the cors package
 const app = express();
 
 // Middleware
+app.use(cors()); // Use cors middleware
 app.use(express.static('Public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -20,10 +22,7 @@ app.get('/HomePage', (req, res) => {
   res.render('index'); // Ensure 'index.ejs' exists in your views directory
 });
 
-
-//email starts
-
-// Handle form submission
+// Email handling starts
 app.post('/contactform', (req, res) => {
   const { name, email, subject, message } = req.body;
 
@@ -44,30 +43,25 @@ app.post('/contactform', (req, res) => {
     text: `Message from: ${name}\n\n${message}`,
   };
 
-
   // Send email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email:', error);
-      res.send('There was an error sending your message.');
+      res.status(500).json({ message: 'There was an error sending your message.' });
     } else {
       console.log('Email sent:', info.response);
-      res.send('OK'); // or any other success message
+      res.status(200).json({ message: 'OK' });
     }
   });
 });
-
-//email ends
-
-
+// Email handling ends
 
 // Catch-all route for undefined routes
 app.get('*', (req, res) => {
   res.redirect('/HomePage');
 });
 
-
-
-
 // Start the server
-app.listen((process.env.pp),()=>{console.log(`Porting To ${process.env.pp}`);});
+app.listen(process.env.pp, () => {
+  console.log(`Server running on port ${process.env.pp}`);
+});
