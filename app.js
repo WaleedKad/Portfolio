@@ -26,34 +26,32 @@ app.get('/HomePage', (req, res) => {
 app.post('/contactform', (req, res) => {
   const { name, email, subject, message } = req.body;
 
-  // Create a transporter object using SMTP transport
   const transporter = nodemailer.createTransport({
-    service: 'hotmail', // or your email service provider
+    service: 'hotmail',
     auth: {
-      user: process.env.EMAIL_USER, // Your email address
-      pass: process.env.EMAIL_PASS, // Your email password
-    },
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
   });
 
-  // Email options
   const mailOptions = {
     from: email,
-    to: process.env.EMAIL_USER, // Your email address
+    to: process.env.EMAIL_USER,
     subject: subject,
-    text: `Message from: ${name}\n\n${message}`,
+    text: `Message from: ${name}\n\n${message}`
   };
 
-  // Send email
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email:', error);
-      res.status(500).json({ message: 'There was an error sending your message.' });
+      res.send('There was an error sending your message.');
     } else {
       console.log('Email sent:', info.response);
-      res.status(200).json({ message: 'OK' });
+      res.send('OK');
     }
   });
 });
+
 // Email handling ends
 
 // Catch-all route for undefined routes
