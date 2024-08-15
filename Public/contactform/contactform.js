@@ -2,16 +2,13 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   e.preventDefault(); // Prevent default form submission
 
   const form = e.target;
-  const formData = new FormData(form);
-
-  // Debug: Log form action and method
-  console.log('Form action:', form.action);
-  console.log('Form method:', form.method);
+  const formData = new URLSearchParams(new FormData(form)).toString(); // Convert FormData to URL-encoded string
 
   fetch(form.action, {
     method: form.method,
     body: formData,
     headers: {
+      'Content-Type': 'application/x-www-form-urlencoded', // Explicitly set Content-Type
       'Accept': 'application/json'
     }
   }).then(response => {

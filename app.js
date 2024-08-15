@@ -1,14 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
-const bodyParser = require('body-parser');
-const cors = require('cors'); // Import the cors package
+const cors = require('cors'); 
 const app = express();
 
 // Middleware
-app.use(cors()); // Use cors middleware
+app.use(cors()); 
 app.use(express.static('Public'));
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // Parses URL-encoded bodies
 
 // Set view engine
 app.set('view engine', 'ejs');
@@ -19,39 +18,45 @@ app.get('/', (req, res) => {
 });
 
 app.get('/HomePage', (req, res) => {
-  res.render('index'); // Ensure 'index.ejs' exists in your views directory
+  res.render('index'); 
 });
 
 // Email handling starts
 app.post('/contactform', (req, res) => {
   const { name, email, subject, message } = req.body;
 
+  // Debugging: Log the incoming form data
+  console.log('Received data:', req.body);
+
+  if (!name || !email || !subject || !message) {
+    return res.send('Please fill out all fields.');
+  }
+
   const transporter = nodemailer.createTransport({
     service: 'hotmail',
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
+      pass: process.env.EMAIL_PASS,
+    },
   });
 
   const mailOptions = {
-    from: email,
+    from: process.env.EMAIL_USER,
     to: process.env.EMAIL_USER,
     subject: subject,
-    text: `Message from: ${name}\n\n${message}`
+    text: `Message from: ${name}\nEmail: ${email}\n\n${message}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error('Error sending email:', error);
-      res.send('There was an error sending your message.');
+      return res.send('There was an error sending your message.');
     } else {
       console.log('Email sent:', info.response);
-      res.send('OK');
+      return res.send('OK');
     }
   });
 });
-
 // Email handling ends
 
 // Catch-all route for undefined routes
